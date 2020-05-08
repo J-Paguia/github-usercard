@@ -2,6 +2,10 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+axios.get('https://api.github.com/users/J-Paguia')
+  .then(response => {
+    console.log(response);
+  })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -24,7 +28,12 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['AustinLynes','JaxAtwood', 'Ladrillo', 'tetondan',  'dustinmyers', 'bigknell'];
+followersArray.forEach(item => {axios.get(`https://api.github.com/users/${item}`).then(res => {
+  cards.append(GithubCard(res.data))
+ });
+})
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -45,6 +54,50 @@ const followersArray = [];
 </div>
 
 */
+
+const cards = document.querySelector(".cards");
+
+
+function GithubCard(obj){
+  const gitCard = document.createElement('div');
+  const gitImg = document.createElement('img');
+  const gitInfo = document.createElement('div');
+  const gitName = document.createElement('h3');
+  const gitUser = document.createElement('p');
+  const gitLocation = document.createElement('p');
+  const gitProfile = document.createElement('p');
+  const gitUrl = document.createElement('a');
+  const gitFollowers = document.createElement('p');
+  const gitFollowing = document.createElement('p');
+  const gitBio = document.createElement('p');
+
+  console.log(obj)
+
+  gitCard.append(gitImg, gitInfo)
+  gitInfo.append(gitName, gitUser, gitLocation, gitProfile, gitFollowers, gitFollowing, gitBio);
+  gitProfile.append(gitUrl);
+
+  gitCard.classList.add('card');
+  gitInfo.classList.add('card-info')
+  gitName.classList.add('name');
+  gitUser.classList.add('username');
+
+  gitImg.src=obj.avatar_url;
+  gitName.textContent = obj.name;
+  gitUser.textContent = obj.login;
+  gitLocation.textContent = obj.location;
+  gitUrl.textContent = obj.html_url;
+  gitFollowers.textContent = obj.gitFollowing;
+  gitBio.textContent = obj.bio;
+
+  return gitCard;
+
+
+
+
+
+
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
